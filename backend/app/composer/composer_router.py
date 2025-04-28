@@ -4,7 +4,6 @@ from pydantic import BaseModel
 import os
 
 from .generator import generate_erc20_contract
-
 router = APIRouter()
 
 GENERATED_DIR = "generated_contracts"
@@ -14,13 +13,21 @@ class ContractRequest(BaseModel):
     name: str
     symbol: str
     initial_supply: int
+    burnable: bool = False
+    pausable: bool = False
+    ownable: bool = False
+    mintable: bool = False
 
 @router.post ("/composer/create")
 def create_contract(request: ContractRequest):
     contract_code = generate_erc20_contract(
         request.name,
         request.symbol,
-        request.initial_supply
+        request.initial_supply,
+        request.burnable,
+        request.pausable,
+        request.ownable,
+        request.mintable
     )
 
     file_path = os.path.join(GENERATED_DIR, f"{request.name}.sol")
