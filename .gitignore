@@ -1,3 +1,4 @@
+backend/generated_contracts/
 .venv/
 __pycache__/
 *.pyc
